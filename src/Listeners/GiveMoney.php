@@ -63,7 +63,7 @@ class GiveMoney
     {
         if (
             $event->post->number > 1 // If it's not the first post of a discussion
-            && strlen($event->post->content) >= $this->postminimumlength
+            && mb_strlen($event->post->content) >= $this->postminimumlength
         ) {
             $this->giveMoney($event->actor, $this->moneyforpost);
         }
@@ -74,7 +74,7 @@ class GiveMoney
         if (
             $this->autoremove == AutoRemoveEnum::HIDDEN
             && $event->post->type == 'comment'
-            && strlen($event->post->content) >= $this->postminimumlength
+            && mb_strlen($event->post->content) >= $this->postminimumlength
         ) {
             $this->giveMoney($event->post->user, $this->moneyforpost);
         }
@@ -85,7 +85,7 @@ class GiveMoney
         if (
             $this->autoremove == AutoRemoveEnum::HIDDEN
             && $event->post->type == 'comment'
-            && strlen($event->post->content) >= $this->postminimumlength
+            && mb_strlen($event->post->content) >= $this->postminimumlength
         ) {
             $this->giveMoney($event->post->user, -1 * $this->moneyforpost);
         }
@@ -96,7 +96,7 @@ class GiveMoney
         if (
             $this->autoremove == AutoRemoveEnum::DELETED
             && $event->post->type == 'comment'
-            && strlen($event->post->content) >= $this->postminimumlength
+            && mb_strlen($event->post->content) >= $this->postminimumlength
         ) {
             $this->giveMoney($event->post->user, -1 * $this->moneyforpost);
         }
@@ -140,7 +140,7 @@ class GiveMoney
             foreach ($discussion->posts as $post) {
                 if (
                     $post->type == 'comment'
-                    && strlen($post->content) >= $this->postminimumlength
+                    && mb_strlen($post->content) >= $this->postminimumlength
                     && $post->number > 1
                     && is_null($post->hidden_at)
                 ) {
