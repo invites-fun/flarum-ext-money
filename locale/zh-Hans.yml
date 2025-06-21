@@ -1,0 +1,8 @@
+antoinefr-money:
+  admin:
+    settings:
+      cascaderemove: 删除讨论时删除帖子的资金
+      ignore_notifying_users: 检测回帖字数时仅关注内容部分
+    permissions:
+      disable_money_label: 禁用财富
+  forum:
