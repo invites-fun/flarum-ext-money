@@ -52,23 +52,25 @@ class GiveMoney
 
     public function giveMoney(?User $user, float $money, Post $post = null): bool
     {
-        $permissions = true;
-        if ($post) {
-            $discussionTags = $post->discussion->tags;
-            foreach ($discussionTags as $tag) {
-                if ($user->hasPermission("tag{$tag->id}.discussion.money.disable_money")) {
-                    $permissions = false;
+        if (!is_null($user)) {
+            $permissions = true;
+            if ($post) {
+                $discussionTags = $post->discussion->tags;
+                foreach ($discussionTags as $tag) {
+                    if ($user->hasPermission("tag{$tag->id}.discussion.money.disable_money") && !$user->isAdmin()) {
+                        $permissions = false;
+                    }
                 }
             }
-        }
 
-        if (!is_null($user) && $permissions) {
-            $user->money += $money;
-            $user->save();
+            if ($permissions) {
+                $user->money += $money;
+                $user->save();
 
-            $this->events->dispatch(new MoneyUpdated($user));
+                $this->events->dispatch(new MoneyUpdated($user));
 
-            return true;
+                return true;
+            }
         }
 
         return false;
