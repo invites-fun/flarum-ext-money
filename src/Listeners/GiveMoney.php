@@ -49,7 +49,21 @@ class GiveMoney
         $this->ignoreNotifyingUsersSwitch = (bool) $this->settings->get('antoinefr-money.ignoreNotifyingUsers', false);
     }
 
-    public function giveMoney(?User $user, float $money, Post $post = null): bool
+    public function giveMoney(?User $user, float $money): bool
+    {
+        if (!is_null($user)) {
+            $user->money += $money;
+            $user->save();
+
+            $this->events->dispatch(new MoneyUpdated($user));
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function postGiveMoney(?User $user, float $money, Post $post)
     {
         if (!is_null($user)) {
             $permissions = true;
@@ -63,16 +77,9 @@ class GiveMoney
             }
 
             if ($permissions) {
-                $user->money += $money;
-                $user->save();
-
-                $this->events->dispatch(new MoneyUpdated($user));
-
-                return true;
+                $this->giveMoney($user, $money);
             }
         }
-
-        return false;
     }
 
     public function ignoreNotifyingUsers(string $content): string
@@ -92,7 +99,7 @@ class GiveMoney
             $event->post->number > 1 // If it's not the first post of a discussion
             && mb_strlen($content) >= $this->postminimumlength
         ) {
-            $this->giveMoney($event->actor, $this->moneyforpost, $event->post);
+            $this->postGiveMoney($event->actor, $this->moneyforpost, $event->post);
         }
     }
 
@@ -104,7 +111,7 @@ class GiveMoney
             && $event->post->type == 'comment'
             && mb_strlen($content) >= $this->postminimumlength
         ) {
-            $this->giveMoney($event->post->user, $this->moneyforpost, $event->post);
+            $this->postGiveMoney($event->post->user, $this->moneyforpost, $event->post);
         }
     }
 
@@ -116,7 +123,7 @@ class GiveMoney
             && $event->post->type == 'comment'
             && mb_strlen($content) >= $this->postminimumlength
         ) {
-            $this->giveMoney($event->post->user, -1 * $this->moneyforpost, $event->post);
+            $this->postGiveMoney($event->post->user, -1 * $this->moneyforpost, $event->post);
         }
     }
 
@@ -128,7 +135,7 @@ class GiveMoney
             && $event->post->type == 'comment'
             && mb_strlen($content) >= $this->postminimumlength
         ) {
-            $this->giveMoney($event->post->user, -1 * $this->moneyforpost, $event->post);
+            $this->postGiveMoney($event->post->user, -1 * $this->moneyforpost, $event->post);
         }
     }
 
@@ -175,7 +182,7 @@ class GiveMoney
                     && $post->number > 1
                     && is_null($post->hidden_at)
                 ) {
-                    $this->giveMoney($post->user, $multiply * $this->moneyforpost, $post);
+                    $this->postGiveMoney($post->user, $multiply * $this->moneyforpost, $post);
                 }
             }
         }
