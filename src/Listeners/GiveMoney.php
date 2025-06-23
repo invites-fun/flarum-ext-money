@@ -21,7 +21,6 @@ use Flarum\Likes\Event\PostWasLiked;
 use Flarum\Likes\Event\PostWasUnliked;
 use AntoineFr\Money\Event\MoneyUpdated;
 use AntoineFr\Money\AutoRemoveEnum;
-use ImDong\FlarumExtVisibleToOpOnly\Common\Defined;
 
 class GiveMoney
 {

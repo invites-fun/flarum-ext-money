@@ -14,7 +14,7 @@ antoinefr-money:
       helpextensionlikes: Requires the <code>flarum/likes</code> extension
     permissions:
       edit_money_label: Edit money
-      disable_money_label: disable money
+      disable_money_label: Disable money
     autoremove:
       0: Never remove money
       1: When a discussion/post is hidden or restored (default)

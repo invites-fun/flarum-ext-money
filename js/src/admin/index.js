@@ -55,7 +55,7 @@ app.initializers.add('antoinefr-money', () => {
       type: 'checkbox',
     })
     .registerSetting({
-      setting: 'antoinefr-money.ignoreNotifyingUsers',
+      setting: 'antoinefr-money.ignorenotifyingusers',
       label: app.translator.trans('antoinefr-money.admin.settings.ignore_notifying_users'),
       type: 'checkbox',
     })

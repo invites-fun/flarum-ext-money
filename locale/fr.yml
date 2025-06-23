@@ -14,7 +14,7 @@ antoinefr-money:
       helpextensionlikes: Nécessite l'extension <code>flarum/likes</code>
     permissions:
       edit_money_label: Modifier la monnaie
-      disable_money_label: Désactiver la richesse
+      disable_money_label: Désactiver la monnaie
     autoremove:
       0: Ne jamais supprimer la monnaie
       1: Quand un/e discussion/post est caché/e ou restauré/e (défaut)
