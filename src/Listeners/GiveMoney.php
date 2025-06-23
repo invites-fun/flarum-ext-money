@@ -46,7 +46,7 @@ class GiveMoney
         $this->moneyforlike = (float) $this->settings->get('antoinefr-money.moneyforlike', 0);
         $this->autoremove = (int) $this->settings->get('antoinefr-money.autoremove', 1);
         $this->cascaderemove = (bool) $this->settings->get('antoinefr-money.cascaderemove', false);
-        $this->ignoreNotifyingUsersSwitch = (bool) $this->settings->get('antoinefr-money.ignoreNotifyingUsers', false);
+        $this->ignoreNotifyingUsersSwitch = (bool) $this->settings->get('antoinefr-money.ignorenotifyingusers', false);
     }
 
     public function giveMoney(?User $user, float $money): bool
